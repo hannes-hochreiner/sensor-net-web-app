@@ -12,7 +12,7 @@ class App extends Component {
       equipment: [],
       parameter_types: []
     };
-    this.repo = new Repo();
+    this.repo = new Repo(axios);
   }
 
   componentDidMount() {
