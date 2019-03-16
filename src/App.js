@@ -45,13 +45,14 @@ class App extends Component {
           }, {});
 
           for (let par in elem.parameters) {
+            // desc
             elem.parameters[par].sort((a, b) => {
               if (a.ts < b.ts) {
-                return -1;
+                return 1;
               }
   
               if (a.ts > b.ts) {
-                return 1;
+                return -1;
               }
   
               return 0;
