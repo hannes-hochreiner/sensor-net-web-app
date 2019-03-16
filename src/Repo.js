@@ -16,7 +16,7 @@ export default class Repo {
   }
 
   async getParameterTypes() {
-    let q = await this.req.get('/api/parameter-type');
+    let q = await this.req.get('/api/parameter_type');
 
     return q.data.result;
   }
