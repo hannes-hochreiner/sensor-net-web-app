@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
-import './App.css';
+// import './App.css';
 import { default as axios } from 'axios';
 import Repo from './Repo.mock';
 import EquipmentList from './EquipmentList';
@@ -34,18 +34,29 @@ class App extends Component {
 
       equipment.forEach(elem => {
         if (param_equip_dict.hasOwnProperty(elem._id)) {
-          elem.parameters = param_equip_dict[elem._id];
-          elem.parameters.sort((a, b) => {
-            if (a < b) {
-              return -1;
+          elem.parameters = param_equip_dict[elem._id].reduce((prev, curr) => {
+            if (!prev.hasOwnProperty(curr._parameter_type_id)) {
+              prev[curr._parameter_type_id] = [];
             }
 
-            if (a > b) {
-              return 1;
-            }
+            prev[curr._parameter_type_id].push(curr);
 
-            return 0;
-          });
+            return prev;
+          }, {});
+
+          for (let par in elem.parameters) {
+            elem.parameters[par].sort((a, b) => {
+              if (a.ts < b.ts) {
+                return -1;
+              }
+  
+              if (a.ts > b.ts) {
+                return 1;
+              }
+  
+              return 0;
+            });
+          }
         }
       });
 
@@ -60,7 +71,7 @@ class App extends Component {
     return (
       <div className="App">
         <header className="App-header">
-          <EquipmentList equipment={this.state.equipment}></EquipmentList>
+          <EquipmentList equipment={this.state.equipment} parameter_types={this.state.parameter_types}></EquipmentList>
         </header>
       </div>
     );
