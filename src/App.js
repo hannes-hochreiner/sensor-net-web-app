@@ -6,6 +6,7 @@ import Repo from './Repo.mock';
 import { TabContent, TabPane, Nav, NavItem, NavLink } from 'reactstrap';
 import classnames from 'classnames';
 import EquipmentList from './EquipmentList';
+import Chart from './Chart';
 
 class App extends Component {
   constructor(props) {
@@ -104,7 +105,7 @@ class App extends Component {
             <EquipmentList equipment={this.state.equipment} parameter_types={this.state.parameter_types}></EquipmentList>
           </TabPane>
           <TabPane tabId="2">
-            empty
+            <Chart data={[5,10,1,3]} size={[500,300]} />
           </TabPane>
         </TabContent>
       </div>
