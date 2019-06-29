@@ -1,14 +1,29 @@
 # sensor-net-web-app
-Web front-end for the sensor network
 
-## Deployment
+## Project setup
+```
+npm install
+```
 
-### Preparation
-Configure firewall
+### Compiles and hot-reloads for development
 ```
-sudo ufw allow http
+npm run serve
 ```
-Install nginx
+
+### Compiles and minifies for production
 ```
-sudo apt install nginx -y
+npm run build
 ```
+
+### Run your tests
+```
+npm run test
+```
+
+### Lints and fixes files
+```
+npm run lint
+```
+
+### Customize configuration
+See [Configuration Reference](https://cli.vuejs.org/config/).
