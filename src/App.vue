@@ -29,15 +29,15 @@ export default {
     this.parametertypes = await this.repo.getParameterTypes();
     let endTs = new Date();
     let startTs = new Date();
-    startTs.setMinutes(endTs.getMinutes() - 30);
+    startTs.setHours(endTs.getHours() - 30);
     this.parameters = await this.repo.getParameters(startTs, endTs);
     this.init = false;
     setInterval(async function() {
       let endTs = new Date();
       let startTs = new Date();
-      startTs.setMinutes(endTs.getMinutes() - 30);
+      startTs.setHours(endTs.getHours() - 30);
       this.parameters = await this.repo.getParameters(startTs, endTs);
-    }.bind(this), 60000);
+    }.bind(this), 300000);
   },
   data () {
     return {
