@@ -36,14 +36,14 @@
                     </v-avatar>
                     <div v-else xs4 md2>{{pt.id}}</div>
                   </v-flex>
-                  <v-flex xs5 md3 v-if="values[equ._id][pt._id]">{{formatNumber(values[equ._id][pt._id][values[equ._id][pt._id].length - 1].val)}}</v-flex>
+                  <v-flex xs5 md3 v-if="values[equ._id] && values[equ._id][pt._id]">{{formatNumber(values[equ._id][pt._id][values[equ._id][pt._id].length - 1].val)}}</v-flex>
                   <v-flex xs3 md1>{{pt.unit}}</v-flex>
                 </v-layout>
               </v-layout>
             </v-container>
           </template>
           <v-container fluid v-for="pt in parametertypes" :key="pt._id">
-            <v-sparkline v-if="values[equ._id][pt._id]"
+            <v-sparkline v-if="values[equ._id] && values[equ._id][pt._id]"
               :value="values[equ._id][pt._id].map(function(e) { return e.val; })"
               :gradient="gradients[pt.id]"
               :smooth="10"
