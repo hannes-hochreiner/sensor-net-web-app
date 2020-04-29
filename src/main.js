@@ -8,7 +8,7 @@ import router from './router'
 // Import the plugin here
 import { Auth0Plugin } from "./auth";
 
-const {domain, clientId} = window.auth_config;
+const {domain, clientId} = window.parameters;
 // Install the authentication plugin here
 Vue.use(Auth0Plugin, {
   domain,
