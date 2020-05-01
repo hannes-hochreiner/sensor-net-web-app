@@ -8,6 +8,8 @@ import router from './router'
 // Import the plugin here
 import { Auth0Plugin } from "./auth";
 
+import vuetify from './plugins/vuetify';
+
 const {domain, clientId, audience} = window.parameters;
 // Install the authentication plugin here
 Vue.use(Auth0Plugin, {
@@ -27,5 +29,6 @@ Vue.config.productionTip = false
 
 new Vue({
   router,
+  vuetify,
   render: h => h(App)
 }).$mount('#app')
