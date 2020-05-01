@@ -33,7 +33,8 @@ export default {
       d3.axisBottom().scale(y);
       x.domain(d3.extent(this.transformedData.flat(), d => d.ts));
       y.domain(d3.extent(this.transformedData.flat(), d => d.val));
-      let line = d3.line().curve(d3.curveCatmullRom.alpha(1))
+      let line = d3.line()
+        // .curve(d3.curveCatmullRom.alpha(1))
         .x(function(d) { return x(d.ts) })
         .y(function(d) { return y(d.val) });
       // multi-line

@@ -9,7 +9,7 @@
           <v-expansion-panel-header>
              <v-row no-gutters>
                 <v-col cols="4" align="right">{{config.parameter_types[parameterTypeId].id}}</v-col>
-                <v-col cols="4" align="right">{{dataByParameterType[parameterTypeId][0].val}}</v-col>
+                <v-col cols="4" align="right">{{Math.round(dataByParameterType[parameterTypeId][0].val)}}</v-col>
                 <v-col cols="4" align="left">{{config.parameter_types[parameterTypeId].unit}}</v-col>
              </v-row>
           </v-expansion-panel-header>

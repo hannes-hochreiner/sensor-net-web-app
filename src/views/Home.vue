@@ -71,17 +71,17 @@ export default {
     async updateData() {
       try {
         const token = await this.$auth.getTokenSilently();
-        this.config.sensors = (await axios.get("/api/sensor", {headers: {Authorization: `Bearer ${token}`}})).result.reduce((acc,curr) => {
+        this.config.sensors = (await axios.get("/api/sensor", {headers: {Authorization: `Bearer ${token}`}})).data.result.reduce((acc,curr) => {
           acc[curr._id] = curr;
           return acc;
         }, {});
         console.log(this.config.sensors);
-        this.config.parameter_types = (await axios.get("/api/parameter_type", {headers: {Authorization: `Bearer ${token}`}})).result.reduce((acc,curr) => {
+        this.config.parameter_types = (await axios.get("/api/parameter_type", {headers: {Authorization: `Bearer ${token}`}})).data.result.reduce((acc,curr) => {
           acc[curr._id] = curr;
           return acc;
         }, {});
         console.log(this.config.parameter_types);
-        this.config.equipment = (await axios.get("/api/equipment", {headers: {Authorization: `Bearer ${token}`}})).result.reduce((acc,curr) => {
+        this.config.equipment = (await axios.get("/api/equipment", {headers: {Authorization: `Bearer ${token}`}})).data.result.reduce((acc,curr) => {
           acc[curr._id] = curr;
           return acc;
         }, {});
@@ -89,7 +89,7 @@ export default {
         let startTime = new Date();
         startTime.setUTCHours(startTime.getUTCHours() - 36);
         let endTime = new Date();
-        this.data = (await axios.get("/api/measurement_data", {headers: {Authorization: `Bearer ${token}`, params: {startTime: startTime, endTime: endTime}}})).result.map(elem => {
+        this.data = (await axios.get("/api/measurement_data", {headers: {Authorization: `Bearer ${token}`}, params: {startTime: startTime, endTime: endTime}})).data.result.map(elem => {
           elem.ts = new Date(elem.ts);
           return elem;
         }).sort((elem1, elem2) => {
