@@ -11,7 +11,8 @@ Vue.use(VueRouter)
   {
     path: '/',
     name: 'Home',
-    component: Home
+    component: Home,
+    beforeEnter: authGuard
   },
   {
     path: '/about',

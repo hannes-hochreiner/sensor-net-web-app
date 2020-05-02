@@ -5,7 +5,7 @@
     </v-card-title>
     <v-card-text>
         <v-expansion-panels>
-        <v-expansion-panel v-for="parameterTypeId in Object.getOwnPropertyNames(dataByParameterType)" :key="parameterTypeId">
+        <v-expansion-panel v-for="parameterTypeId in Object.getOwnPropertyNames(dataByParameterType).sort()" :key="parameterTypeId">
           <v-expansion-panel-header>
              <v-row no-gutters>
                 <v-col cols="4" align="right">{{config.parameter_types[parameterTypeId].id}}</v-col>
