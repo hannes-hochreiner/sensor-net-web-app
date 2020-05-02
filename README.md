@@ -1,14 +1,8 @@
 # sensor-net-web-app
-Web front-end for the sensor network
 
-## Deployment
+Simple SPA to be able to consume the data obtained by the [Sensor Net](https://github.com/hannes-hochreiner/sensor-net).
 
-### Preparation
-Configure firewall
-```
-sudo ufw allow http
-```
-Install nginx
-```
-sudo apt install nginx -y
-```
+![screenshot](screenshots/screenshot.png)
+
+## TODOs
+  * Look into Traefik
