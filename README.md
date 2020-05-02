@@ -1,6 +1,8 @@
 # sensor-net-web-app
 
-At the moment, this is just a proof of concept.
+Simple SPA to be able to consume the data obtained by the [Sensor Net](https://github.com/hannes-hochreiner/sensor-net).
+
+![screenshot](screenshots/screenshot.png)
 
 ## TODOs
   * Look into Traefik
