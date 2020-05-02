@@ -48,7 +48,7 @@ export default {
 </script>
 <style scoped>
 svg {
-  background-color: #eee;
+  background-color: #f5f5f5;
 }
 svg >>> path.data {
   fill: none;

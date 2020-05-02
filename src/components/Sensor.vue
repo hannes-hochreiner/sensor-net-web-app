@@ -7,10 +7,14 @@
         <v-expansion-panels>
         <v-expansion-panel v-for="parameterTypeId in Object.getOwnPropertyNames(dataByParameterType).sort()" :key="parameterTypeId">
           <v-expansion-panel-header>
-             <v-row no-gutters>
-                <v-col cols="4" align="right">{{config.parameter_types[parameterTypeId].id}}</v-col>
-                <v-col cols="4" align="right">{{Math.round(dataByParameterType[parameterTypeId][0].val)}}</v-col>
-                <v-col cols="4" align="left">{{config.parameter_types[parameterTypeId].unit}}</v-col>
+             <v-row no-gutters align="center">
+                <v-spacer/>
+                <v-col cols="2" align="right">
+                  <v-img height="2.2em" width="2.2em" v-if="iconForParameterType(config.parameter_types[parameterTypeId].id)" :src="iconForParameterType(config.parameter_types[parameterTypeId].id)"></v-img>
+                  <div v-if="!iconForParameterType(config.parameter_types[parameterTypeId].id)">{{config.parameter_types[parameterTypeId].id}}</div>
+                </v-col>
+                <v-col cols="4" align="right" class="value">{{Math.round(dataByParameterType[parameterTypeId][0].val)}}</v-col>
+                <v-col cols="4" align="left" class="unit">{{config.parameter_types[parameterTypeId].unit}}</v-col>
              </v-row>
           </v-expansion-panel-header>
           <v-expansion-panel-content>
@@ -34,6 +38,15 @@ export default {
     config: Object,
     data: Array
   },
+  methods: {
+    iconForParameterType(parameterTypeId) {
+      return {
+        'relativeHumidity': '/icon_hum.svg',
+        'temperature': '/icon_temp.svg',
+        'pressure': '/icon_press.svg'
+      }[parameterTypeId];
+    }
+  },
   computed: {
     dataByParameterType: function() {
       return this.data.reduce((acc, curr) => {
@@ -48,3 +61,18 @@ export default {
   }
 }
 </script>
+<style scoped>
+  div.value {
+    font-size: 2.1em;
+    font-weight: 700;
+  }
+
+  div.unit {
+    font-size: 2.1em;
+    font-weight: 200;
+  }
+
+  .v-card__title {
+    font-weight: 300;
+  }
+</style>

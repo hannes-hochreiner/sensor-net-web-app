@@ -52,3 +52,9 @@ export default {
   }
 }
 </script>
+<style scoped>
+  .v-card__subtitle {
+    color: black;
+    font-weight: 400;
+  }
+</style>
