@@ -14,7 +14,6 @@
 
 <script>
 import axios from "axios";
-// @ is an alias to /src
 import Equipment from '@/components/Equipment.vue'
 
 export default {
@@ -51,17 +50,17 @@ export default {
           acc[curr._id] = curr;
           return acc;
         }, {});
-        console.log(this.config.sensors);
+        // console.log(this.config.sensors);
         this.config.parameter_types = (await axios.get("/api/parameter_type", {headers: {Authorization: `Bearer ${token}`}})).data.result.reduce((acc,curr) => {
           acc[curr._id] = curr;
           return acc;
         }, {});
-        console.log(this.config.parameter_types);
+        // console.log(this.config.parameter_types);
         this.config.equipment = (await axios.get("/api/equipment", {headers: {Authorization: `Bearer ${token}`}})).data.result.reduce((acc,curr) => {
           acc[curr._id] = curr;
           return acc;
         }, {});
-        console.log(this.config.equipment);
+        // console.log(this.config.equipment);
         let endTime = new Date();
         this.data = (await axios.get("/api/measurement_data", {headers: {Authorization: `Bearer ${token}`}, params: {startTime: this.startTime, endTime: endTime}})).data.result.map(elem => {
           elem.ts = new Date(elem.ts);
@@ -76,7 +75,7 @@ export default {
           }
         }).slice(0, 1501);
         this.startTime = endTime;
-        console.log(this.data);
+        // console.log(this.data);
       } catch (error) {
         console.log(error);
       }

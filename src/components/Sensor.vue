@@ -8,13 +8,12 @@
         <v-expansion-panel v-for="parameterTypeId in Object.getOwnPropertyNames(dataByParameterType).sort()" :key="parameterTypeId">
           <v-expansion-panel-header>
              <v-row no-gutters align="center">
-                <v-spacer/>
                 <v-col cols="2" align="right">
-                  <v-img height="2.2em" width="2.2em" v-if="iconForParameterType(config.parameter_types[parameterTypeId].id)" :src="iconForParameterType(config.parameter_types[parameterTypeId].id)"></v-img>
+                  <v-img height="2em" width="2em" v-if="iconForParameterType(config.parameter_types[parameterTypeId].id)" :src="iconForParameterType(config.parameter_types[parameterTypeId].id)"></v-img>
                   <div v-if="!iconForParameterType(config.parameter_types[parameterTypeId].id)">{{config.parameter_types[parameterTypeId].id}}</div>
                 </v-col>
-                <v-col cols="4" align="right" class="value">{{Math.round(dataByParameterType[parameterTypeId][0].val)}}</v-col>
-                <v-col cols="4" align="left" class="unit">{{config.parameter_types[parameterTypeId].unit}}</v-col>
+                <v-col cols="5" align="right" class="value">{{Math.round(dataByParameterType[parameterTypeId][0].val)}}</v-col>
+                <v-col cols="5" align="left" class="unit">{{config.parameter_types[parameterTypeId].unit}}</v-col>
              </v-row>
           </v-expansion-panel-header>
           <v-expansion-panel-content>
@@ -63,12 +62,12 @@ export default {
 </script>
 <style scoped>
   div.value {
-    font-size: 2.1em;
+    font-size: 1.9em;
     font-weight: 700;
   }
 
   div.unit {
-    font-size: 2.1em;
+    font-size: 1.9em;
     font-weight: 200;
   }
 
