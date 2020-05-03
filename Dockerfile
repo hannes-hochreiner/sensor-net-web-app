@@ -1,11 +1,14 @@
-FROM node:lts-alpine
+FROM node:lts-alpine as build-stage
 MAINTAINER Hannes Hochreiner <hannes@hochreiner.net>
-COPY src /opt/sensor-net-web-app/src
-COPY public /opt/sensor-net-web-app/public
-COPY babel.config.js /opt/sensor-net-web-app/babel.config.js
-COPY package.json /opt/sensor-net-web-app/package.json
-COPY server.js /opt/sensor-net-web-app/server.js
-RUN cd /opt/sensor-net-web-app && npm install && npm run build
-EXPOSE 8888
-WORKDIR /opt/sensor-net-web-app
-CMD ["node", "server.js"]
+RUN mkdir /app
+WORKDIR /app
+COPY ./src ./src
+COPY ./public ./public
+COPY babel.config.js ./
+COPY package*.json ./
+RUN npm install && npm run build
+
+FROM nginx:alpine as production-stage
+RUN mkdir /app
+COPY --from=build-stage /app/dist /app
+COPY nginx.conf /etc/nginx/nginx.conf
