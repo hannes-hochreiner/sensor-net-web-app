@@ -1,4 +1,4 @@
-![CI](https://github.com/hannes-hochreiner/sensor-net-web-app/workflows/.github/workflows/CI/badge.svg)
+![CI](https://github.com/hannes-hochreiner/sensor-net-web-app/workflows/CI/badge.svg)
 
 # sensor-net-web-app
 
