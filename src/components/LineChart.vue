@@ -25,6 +25,11 @@ export default {
       });
     }
   },
+  watch: {
+    transformedData: function() {
+      this.calculatePath();
+    }
+  },
   methods: {
     calculatePath() {
       const x = d3.scaleTime().range([0, 390]);
