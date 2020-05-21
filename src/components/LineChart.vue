@@ -44,6 +44,9 @@ export default {
         .y(function(d) { return y(d.val) });
       // multi-line
       // d3.select(this.$el.childNodes[0]).selectAll(".data").data(this.transformedData).enter().append("path").attr("class", "data").attr("d", line);
+      d3.select(this.$el.childNodes[0]).selectAll('*').remove();
+      d3.select(this.$el.childNodes[1]).selectAll('*').remove();
+      d3.select(this.$el.childNodes[2]).selectAll('*').remove();
       d3.select(this.$el.childNodes[0]).append("path").datum(this.transformedData).attr("class", "data").attr("d", line);
       d3.select(this.$el.childNodes[1]).call(d3.axisLeft(y));
       d3.select(this.$el.childNodes[2]).call(d3.axisBottom(x));
