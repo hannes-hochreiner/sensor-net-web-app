@@ -27,12 +27,6 @@ Vue.use(VueRouter)
     name: "profile",
     component: Profile,
     beforeEnter: authGuard
-  },
-  {
-    path: "/external-api",
-    name: "external-api",
-    component: ExternalApiView,
-    beforeEnter: authGuard
   }
 ]
 

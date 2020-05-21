@@ -41,11 +41,6 @@
             <v-list-item-title><router-link to="/profile">Profile</router-link></v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item link>
-          <v-list-item-content>
-            <v-list-item-title><router-link to="/external-api">External Api</router-link></v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
       </v-list>
     </v-navigation-drawer>
 
