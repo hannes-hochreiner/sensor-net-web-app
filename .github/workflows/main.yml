@@ -24,6 +24,7 @@ jobs:
       with:
         docker-user-name: ${{ secrets.DOCKER_USER }}
         docker-token: ${{ secrets.DOCKER_TOKEN }}
+      id: publish
     - name: Call container updater
       uses: hannes-hochreiner/gha-authorized-request@v1.0.0
       with:
