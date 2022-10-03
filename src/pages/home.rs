@@ -1,9 +1,19 @@
-use crate::{agents::fetcher, components::NavBar, objects::sensor::Sensor};
+use std::collections::HashSet;
+
+use crate::{
+    agents::fetcher,
+    components::NavBar,
+    objects::{equipment::Equipment, parameter_type::ParameterType, sensor::Sensor},
+};
+use uuid::Uuid;
 use yew::{prelude::*, Html};
 use yew_agent::{Bridge, Bridged};
 
 pub struct HomePage {
     fetcher: Box<dyn Bridge<fetcher::Fetcher>>,
+    sensors: Option<HashSet<Uuid, Sensor>>,
+    equipment: Option<HashSet<Uuid, Equipment>>,
+    parameter_types: Option<HashSet<Uuid, ParameterType>>,
 }
 
 pub enum Message {
@@ -19,9 +29,22 @@ impl HomePage {
                         log::debug!("{:?}", sensors);
                         Ok(())
                     }
-                    _ => Ok(()),
+                    Err(e) => Err(e.into()),
                 },
-                _ => Ok(()),
+                fetcher::Response::Equipment(res) => match res {
+                    Ok(equipment) => {
+                        log::debug!("{:?}", equipment);
+                        Ok(())
+                    }
+                    Err(e) => Err(e.into()),
+                },
+                fetcher::Response::ParameterTypes(res) => match res {
+                    Ok(parameter_types) => {
+                        log::debug!("{:?}", parameter_types);
+                        Ok(())
+                    }
+                    Err(e) => Err(e.into()),
+                },
             },
         }
     }
@@ -44,9 +67,14 @@ impl Component for HomePage {
     fn create(ctx: &Context<Self>) -> Self {
         let mut obj = Self {
             fetcher: fetcher::Fetcher::bridge(ctx.link().callback(Message::FetcherMessage)),
+            equipment: None,
+            parameter_types: None,
+            sensors: None,
         };
 
+        obj.fetcher.send(fetcher::Request::GetEquipment);
         obj.fetcher.send(fetcher::Request::GetSensors);
+        obj.fetcher.send(fetcher::Request::GetParameterTypes);
 
         obj
     }

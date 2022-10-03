@@ -1,4 +1,6 @@
 use super::notifier;
+use crate::objects::equipment::Equipment;
+use crate::objects::parameter_type::ParameterType;
 use crate::objects::{sensor::Sensor, JsError};
 use crate::utils;
 use serde::de::DeserializeOwned;
@@ -11,16 +13,22 @@ use yew_agent::{Agent, AgentLink, Context, Dispatched, Dispatcher, HandlerId};
 #[derive(Debug)]
 pub enum Request {
     GetSensors,
+    GetEquipment,
+    GetParameterTypes,
 }
 
 #[derive(Debug)]
 pub enum Response {
     Sensors(Result<Vec<Sensor>, JsError>),
+    Equipment(Result<Vec<Equipment>, JsError>),
+    ParameterTypes(Result<Vec<ParameterType>, JsError>),
 }
 
 #[derive(Debug)]
 pub enum Message {
     ReceiveSensors(HandlerId, Result<Vec<Sensor>, JsError>),
+    ReceiveEquipment(HandlerId, Result<Vec<Equipment>, JsError>),
+    ReceiveParameterTypes(HandlerId, Result<Vec<ParameterType>, JsError>),
 }
 
 pub struct Fetcher {
@@ -38,6 +46,10 @@ impl Fetcher {
     fn process_update(&mut self, msg: Message) -> Result<(), JsError> {
         match msg {
             Message::ReceiveSensors(id, res) => self.link.respond(id, Response::Sensors(res)),
+            Message::ReceiveEquipment(id, res) => self.link.respond(id, Response::Equipment(res)),
+            Message::ReceiveParameterTypes(id, res) => {
+                self.link.respond(id, Response::ParameterTypes(res))
+            }
         }
 
         Ok(())
@@ -58,6 +70,18 @@ impl Fetcher {
                 Message::ReceiveSensors(
                     id,
                     fetch_deserializable("/api/sensors", HttpMethod::Get, None, None).await,
+                )
+            }),
+            Request::GetEquipment => self.link.send_future(async move {
+                Message::ReceiveEquipment(
+                    id,
+                    fetch_deserializable("/api/equipment", HttpMethod::Get, None, None).await,
+                )
+            }),
+            Request::GetParameterTypes => self.link.send_future(async move {
+                Message::ReceiveParameterTypes(
+                    id,
+                    fetch_deserializable("/api/parameter_types", HttpMethod::Get, None, None).await,
                 )
             }),
         }
