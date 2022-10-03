@@ -1,4 +1,4 @@
-FROM fedora:36 as build-stage
+FROM fedora:36 as builder
 MAINTAINER Hannes Hochreiner <hannes@hochreiner.net>
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 RUN dnf install gcc openssl-devel wget p7zip p7zip-plugins -y
