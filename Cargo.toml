@@ -2,11 +2,30 @@
 name = "sensor-net-web-app"
 version = "2.0.0"
 edition = "2021"
+license = "MIT"
+description = "Web app for the SensorNet project"
+readme = "README.md"
+repository = "https://github.com/hannes-hochreiner/sensor-net-web-app"
+publish = false
+authors = ["Hannes Hochreiner <hannes@hochreiner.net>"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
 yew = "0.19"
 yew-router = "0.16"
+yew-agent = "0.1"
 wasm-logger = "0.2"
+wasm-bindgen = "0.2"
+wasm-bindgen-futures = "0.4"
 log = "0.4"
+serde = { version = "1.0", features = ["derive"] }
+serde-wasm-bindgen = "0.4"
+serde_json = "1.0"
+url = "2.3"
+uuid = { version = "1.1", features = ["v4", "serde"] }
+web-sys = { version = "0.3", features = ["Navigator", "ConnectionType", "Headers", "Request", "Response", "RequestInit", "NetworkInformation"] }
+js-sys = "0.3"
+getrandom = { version = "0.2", features = ["js"] }
+chrono = { version = "0.4", features = ["serde"]}
+anyhow = "1.0"

@@ -1,7 +1,11 @@
+mod agents;
 mod components;
+mod objects;
 mod pages;
+mod utils;
 use components::Top;
 // use yew::prelude::*;
+// use wasm_bindgen::prelude::*;
 
 // enum Msg {
 //     AddOne,
