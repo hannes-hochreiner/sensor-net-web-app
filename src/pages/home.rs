@@ -2,6 +2,7 @@ use std::collections::HashSet;
 
 use crate::{
     agents::fetcher,
+    components::overview::Overview,
     components::NavBar,
     objects::{equipment::Equipment, parameter_type::ParameterType, sensor::Sensor},
 };
@@ -45,6 +46,7 @@ impl HomePage {
                     }
                     Err(e) => Err(e.into()),
                 },
+                _ => Ok(()),
             },
         }
     }
@@ -58,6 +60,7 @@ impl Component for HomePage {
         html! {
             <>
                 <NavBar/>
+                <Overview/>
                 // <Notification/>
                 // <Player/>
             </>

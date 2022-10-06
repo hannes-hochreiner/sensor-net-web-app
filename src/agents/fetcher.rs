@@ -1,5 +1,6 @@
 use super::notifier;
 use crate::objects::equipment::Equipment;
+use crate::objects::measurement_data::MeasurementData;
 use crate::objects::parameter_type::ParameterType;
 use crate::objects::{sensor::Sensor, JsError};
 use crate::utils;
@@ -15,6 +16,7 @@ pub enum Request {
     GetSensors,
     GetEquipment,
     GetParameterTypes,
+    GetMeasurementData,
 }
 
 #[derive(Debug)]
@@ -22,6 +24,7 @@ pub enum Response {
     Sensors(Result<Vec<Sensor>, JsError>),
     Equipment(Result<Vec<Equipment>, JsError>),
     ParameterTypes(Result<Vec<ParameterType>, JsError>),
+    MeasurementData(Result<Vec<MeasurementData>, JsError>),
 }
 
 #[derive(Debug)]
@@ -29,6 +32,7 @@ pub enum Message {
     ReceiveSensors(HandlerId, Result<Vec<Sensor>, JsError>),
     ReceiveEquipment(HandlerId, Result<Vec<Equipment>, JsError>),
     ReceiveParameterTypes(HandlerId, Result<Vec<ParameterType>, JsError>),
+    ReceiveMeasurementData(HandlerId, Result<Vec<MeasurementData>, JsError>),
 }
 
 pub struct Fetcher {
@@ -49,6 +53,9 @@ impl Fetcher {
             Message::ReceiveEquipment(id, res) => self.link.respond(id, Response::Equipment(res)),
             Message::ReceiveParameterTypes(id, res) => {
                 self.link.respond(id, Response::ParameterTypes(res))
+            }
+            Message::ReceiveMeasurementData(id, res) => {
+                self.link.respond(id, Response::MeasurementData(res))
             }
         }
 
@@ -82,6 +89,18 @@ impl Fetcher {
                 Message::ReceiveParameterTypes(
                     id,
                     fetch_deserializable("/api/parameter_types", HttpMethod::Get, None, None).await,
+                )
+            }),
+            Request::GetMeasurementData => self.link.send_future(async move {
+                Message::ReceiveMeasurementData(
+                    id,
+                    fetch_deserializable(
+                        "/api/measurement_data/latest",
+                        HttpMethod::Get,
+                        None,
+                        None,
+                    )
+                    .await,
                 )
             }),
         }
