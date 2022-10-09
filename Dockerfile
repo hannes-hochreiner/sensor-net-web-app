@@ -8,6 +8,6 @@ RUN wget https://github.com/jgthms/bulma/releases/download/0.9.4/bulma-0.9.4.zip
 COPY . /opt/sensor-net-web-app
 RUN source $HOME/.cargo/env && cd /opt/sensor-net-web-app && trunk build --release
 
-FROM h0h4/pwa-server:v1.2.0 AS pwa
+FROM h0h4/pwa-server:v1.2.1 AS pwa
 MAINTAINER Hannes Hochreiner <hannes@hochreiner.net>
 COPY --from=builder /opt/sensor-net-web-app/dist /opt/sensor-net-web-app/dist
