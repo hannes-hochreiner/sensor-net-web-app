@@ -5,6 +5,7 @@ use crate::{
     objects::{
         equipment::Equipment,
         measurement_data::{self, MeasurementData},
+        parameter_type::{self, ParameterType},
         sensor::Sensor,
     },
 };
@@ -20,6 +21,7 @@ pub struct Overview {
     equipment: Option<Vec<Equipment>>,
     sensors: Option<Vec<Sensor>>,
     measurement_data: Option<Vec<MeasurementData>>,
+    parameter_types: Option<Vec<ParameterType>>,
 }
 pub enum Message {
     FetcherMessage(fetcher::Response),
@@ -41,6 +43,10 @@ impl Overview {
                     self.measurement_data = Some(measurement_data);
                     Ok(())
                 }
+                fetcher::Response::ParameterTypes(Ok(parameter_types)) => {
+                    self.parameter_types = Some(parameter_types);
+                    Ok(())
+                }
                 _ => Ok(()),
             },
             _ => Ok(()),
@@ -53,8 +59,12 @@ impl Component for Overview {
     type Properties = ();
 
     fn view(&self, ctx: &Context<Self>) -> VNode {
-        let content = match (&self.equipment, &self.measurement_data) {
-            (Some(equipment), Some(measurement_data)) => {
+        let content = match (
+            &self.equipment,
+            &self.measurement_data,
+            &self.parameter_types,
+        ) {
+            (Some(equipment), Some(measurement_data), Some(parameter_types)) => {
                 html! {
                     <div>
                         {equipment.iter().map(|equip| {
@@ -66,7 +76,7 @@ impl Component for Overview {
                                     <div class="content">
                                         {measurement_data.iter().filter(|md| md.equipment_db_id == equip.db_id).map(|md| {
                                             html! {
-                                                <p>{md.value}</p>
+                                                <p>{md.value}{parameter_types.iter().find(|pt| pt.db_id == md.parameter_type_db_id).map(|pt| pt.unit.clone()).unwrap_or("".into())}</p>
                                             }
                                         }).collect::<Html>()}
                                     </div>
@@ -92,11 +102,13 @@ impl Component for Overview {
             equipment: None,
             sensors: None,
             measurement_data: None,
+            parameter_types: None,
         };
 
         obj.fetcher.send(fetcher::Request::GetEquipment);
         obj.fetcher.send(fetcher::Request::GetSensors);
         obj.fetcher.send(fetcher::Request::GetMeasurementData);
+        obj.fetcher.send(fetcher::Request::GetParameterTypes);
 
         obj
     }
