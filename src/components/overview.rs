@@ -1,11 +1,7 @@
-use std::collections::HashSet;
-
 use crate::{
     agents::fetcher,
     objects::{
-        equipment::Equipment,
-        measurement_data::{self, MeasurementData},
-        parameter_type::{self, ParameterType},
+        equipment::Equipment, measurement_data::MeasurementData, parameter_type::ParameterType,
         sensor::Sensor,
     },
 };
@@ -58,7 +54,7 @@ impl Component for Overview {
     type Message = Message;
     type Properties = ();
 
-    fn view(&self, ctx: &Context<Self>) -> VNode {
+    fn view(&self, _ctx: &Context<Self>) -> VNode {
         let content = match (
             &self.equipment,
             &self.measurement_data,
@@ -74,11 +70,20 @@ impl Component for Overview {
                                         <p class="card-header-title">{equip.info.clone().unwrap_or(equip.id.clone())}</p>
                                     </div>
                                     <div class="content">
-                                        {measurement_data.iter().filter(|md| md.equipment_db_id == equip.db_id).map(|md| {
-                                            html! {
-                                                <p>{md.value}{parameter_types.iter().find(|pt| pt.db_id == md.parameter_type_db_id).map(|pt| pt.unit.clone()).unwrap_or("".into())}</p>
-                                            }
-                                        }).collect::<Html>()}
+                                        <nav class="level">
+                                            {measurement_data.iter().filter(|md| md.equipment_db_id == equip.db_id).map(|md| {
+                                                let parameter_type = parameter_types.iter().find(|pt| pt.db_id == md.parameter_type_db_id);
+
+                                                html! {
+                                                    <div class="level-item has-text-centered">
+                                                        <div>
+                                                          <p class="heading">{parameter_type.map(|pt| pt.id.clone()).unwrap_or("".into())}</p>
+                                                          <p class="title">{md.value as i64} {parameter_type.map(|pt| pt.unit.clone()).unwrap_or("".into())}</p>
+                                                        </div>
+                                                    </div>
+                                                }
+                                            }).collect::<Html>()}
+                                        </nav>
                                     </div>
                                 </div>
                             }
