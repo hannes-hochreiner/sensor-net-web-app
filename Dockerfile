@@ -1,14 +1,14 @@
-FROM node:lts-alpine as build-stage
+FROM fedora:36 as builder
 MAINTAINER Hannes Hochreiner <hannes@hochreiner.net>
-RUN mkdir /app
-WORKDIR /app
-COPY ./src ./src
-COPY ./public ./public
-COPY babel.config.js ./
-COPY package*.json ./
-RUN npm install && npm run build
+RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+RUN dnf install gcc openssl-devel wget p7zip p7zip-plugins -y
+RUN source $HOME/.cargo/env && cargo install --locked trunk && rustup target add wasm32-unknown-unknown
+RUN mkdir -p /opt/sensor-net-web-app
+RUN wget https://github.com/jgthms/bulma/releases/download/0.9.4/bulma-0.9.4.zip && 7z x -o/opt/sensor-net-web-app bulma-0.9.4.zip && mv /opt/sensor-net-web-app/bulma /opt/sensor-net-web-app/bulma-0.9.4
+COPY . /opt/sensor-net-web-app
+RUN source $HOME/.cargo/env && cd /opt/sensor-net-web-app && trunk build --release
 
-FROM nginx:alpine as production-stage
-RUN mkdir /app
-COPY --from=build-stage /app/dist /app
-COPY nginx.conf /etc/nginx/nginx.conf
+FROM nginx:stable-alpine AS pwa
+MAINTAINER Hannes Hochreiner <hannes@hochreiner.net>
+COPY --from=builder /opt/sensor-net-web-app/dist /usr/share/nginx/html
+COPY --from=builder /opt/sensor-net-web-app/nginx.conf /etc/nginx/nginx.conf
