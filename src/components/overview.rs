@@ -69,21 +69,26 @@ impl Component for Overview {
                                     <div class="card-header">
                                         <p class="card-header-title">{equip.info.clone().unwrap_or(equip.id.clone())}</p>
                                     </div>
-                                    <div class="content">
-                                        <nav class="level">
+                                    <div class="card-content">
+                                        <div class="content">
                                             {measurement_data.iter().filter(|md| md.equipment_db_id == equip.db_id).map(|md| {
                                                 let parameter_type = parameter_types.iter().find(|pt| pt.db_id == md.parameter_type_db_id);
 
                                                 html! {
-                                                    <div class="level-item has-text-centered">
-                                                        <div>
-                                                          <p class="heading">{parameter_type.map(|pt| pt.id.clone()).unwrap_or("".into())}</p>
-                                                          <p class="title">{md.value as i64} {parameter_type.map(|pt| pt.unit.clone()).unwrap_or("".into())}</p>
-                                                        </div>
+                                                    <div class="box">
+                                                        <nav class="level">
+                                                            <div class="level-item has-text-centered">
+                                                                <div>
+                                                                  <p class="heading">{parameter_type.map(|pt| pt.id.clone()).unwrap_or("".into())}</p>
+                                                                  <p class="title">{md.value as i64} {parameter_type.map(|pt| pt.unit.clone()).unwrap_or("".into())}</p>
+                                                                  <p class="heading">{format!("{}, RSSI: {}", md.ts, md.rssi)}</p>
+                                                                </div>
+                                                            </div>
+                                                        </nav>
                                                     </div>
                                                 }
                                             }).collect::<Html>()}
-                                        </nav>
+                                        </div>
                                     </div>
                                 </div>
                             }
