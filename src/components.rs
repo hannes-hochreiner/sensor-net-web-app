@@ -5,3 +5,4 @@ pub use nav_bar::*;
 pub use router::*;
 pub use top::*;
 pub mod overview;
+pub mod parameter;

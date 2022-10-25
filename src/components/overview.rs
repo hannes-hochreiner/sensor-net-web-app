@@ -1,5 +1,6 @@
 use crate::{
     agents::fetcher,
+    components::parameter::Parameter,
     objects::{
         equipment::Equipment, measurement_data::MeasurementData, parameter_type::ParameterType,
         sensor::Sensor,
@@ -75,17 +76,7 @@ impl Component for Overview {
                                                 let parameter_type = parameter_types.iter().find(|pt| pt.db_id == md.parameter_type_db_id);
 
                                                 html! {
-                                                    <div class="box">
-                                                        <nav class="level">
-                                                            <div class="level-item has-text-centered">
-                                                                <div>
-                                                                  <p class="heading">{parameter_type.map(|pt| pt.id.clone()).unwrap_or("".into())}</p>
-                                                                  <p class="title">{md.value as i64} {parameter_type.map(|pt| pt.unit.clone()).unwrap_or("".into())}</p>
-                                                                  <p class="heading">{format!("{}, RSSI: {}", md.ts, md.rssi)}</p>
-                                                                </div>
-                                                            </div>
-                                                        </nav>
-                                                    </div>
+                                                    <Parameter rssi={md.rssi} ts={md.ts} value={md.value} parameter_type={(*parameter_type.unwrap()).clone()} sensor_db_id={md.sensor_db_id} equipment_db_id={md.equipment_db_id} />
                                                 }
                                             }).collect::<Html>()}
                                         </div>
