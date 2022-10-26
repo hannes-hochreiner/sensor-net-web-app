@@ -3,12 +3,10 @@ use crate::objects::equipment::Equipment;
 use crate::objects::measurement_data::MeasurementData;
 use crate::objects::parameter_type::ParameterType;
 use crate::objects::{sensor::Sensor, JsError};
-use crate::utils;
 use serde::de::DeserializeOwned;
 use std::collections::{HashMap, HashSet};
 use wasm_bindgen::JsCast;
 use wasm_bindgen_futures::JsFuture;
-use web_sys::ConnectionType;
 use yew_agent::{Agent, AgentLink, Context, Dispatched, Dispatcher, HandlerId};
 
 #[derive(Debug)]
@@ -63,15 +61,6 @@ impl Fetcher {
     }
 
     fn process_handle_input(&mut self, msg: Request, id: HandlerId) -> Result<(), JsError> {
-        let conn_type = utils::get_connection_type()?;
-
-        if (conn_type != ConnectionType::Ethernet)
-            & (conn_type != ConnectionType::Wifi)
-            & (conn_type != ConnectionType::Unknown)
-        {
-            return Ok(());
-        }
-
         match msg {
             Request::GetSensors => self.link.send_future(async move {
                 Message::ReceiveSensors(
